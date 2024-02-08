@@ -28,12 +28,12 @@ const validatePassword = (password) => {
 }
 
 const validateForm = (myForm) => {
-  var firstname = myForm.firstname.value; // get text of firstname field
-  var lastname = myForm.lastname.value;
+  var firstname = myForm.firstname.value.trim; // get text of firstname field
+  var lastname = myForm.lastname.value.trim;
   var password = myForm.password.value;
 
   // update 'message' DIV with appropriate wording
-  if (!firstname || lastname) {
+  if (!firstname || !lastname) {
     $("#message").html("Enter first name and last name");
     return false;
 }
@@ -51,3 +51,4 @@ const validateForm = (myForm) => {
 
 </body>
 </html>
+ 
