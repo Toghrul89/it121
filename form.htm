@@ -33,12 +33,17 @@ const validateForm = (myForm) => {
 
   // update 'message' DIV with appropriate wording
   
-
-  $("#message").html("Enter first and last name");
-
+if (!firstname.trim() || lastname.trim()) {
+  $("#message").html("Enter first name and last name");
+  return false;
+}
   /* Form validation code goes here
   */
-
+if (!validatePassword(password)) {
+  $("#message").html("Invalid password");
+  return false
+}
+$("#message").html("All fields are valid.");
   return false; // prevent page reload
 }
 
