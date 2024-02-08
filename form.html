@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
@@ -15,7 +15,8 @@
   <button >Check</button>
 </form>
 
-<hr><div id="message"></div>
+<hr>
+<div id="message"></div>
 
 <script>
 
@@ -32,18 +33,17 @@ const validateForm = (myForm) => {
   var password = myForm.password.value;
 
   // update 'message' DIV with appropriate wording
-  
-if (!firstname.trim() || lastname.trim()) {
-  $("#message").html("Enter first name and last name");
-  return false;
+  if (!firstname || lastname) {
+    $("#message").html("Enter first name and last name");
+    return false;
 }
   /* Form validation code goes here
   */
-if (!validatePassword(password)) {
-  $("#message").html("Invalid password");
-  return false
+  if (!validatePassword(password)) {
+    $("#message").html("Invalid password. Password should have at least 8 characters, at least one uppercase letter, and at least one lowercase letter");
+    return false;
 }
-$("#message").html("All fields are valid.");
+  $("#message").html("All fields are valid.");
   return false; // prevent page reload
 }
 
