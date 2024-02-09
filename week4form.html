@@ -28,8 +28,8 @@ const validatePassword = (password) => {
 }
 
 const validateForm = (myForm) => {
-  var firstname = myForm.firstname.value.trim; // get text of firstname field
-  var lastname = myForm.lastname.value.trim;
+  var firstname = myForm.firstname.value.trim(); // get text of firstname field
+  var lastname = myForm.lastname.value.trim();
   var password = myForm.password.value;
 
   // update 'message' DIV with appropriate wording
