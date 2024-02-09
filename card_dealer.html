@@ -14,14 +14,38 @@
 <script>
 
   /* define Card object and deck of cards here */
+  function Card(value, suit) {
+    this.value = value;
+    this.suit = suit;
+  }
+  let deck = [];
+  const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+  const faceCards = ['Jack', 'Queen', 'King'];
 
+  for (let suit of suits) {
+    for (let i = 2; i <= 10; i++) {
+      deck.push(new Card(i, suit));
+    }
+    for (let faceCard of faceCards) {
+      deck.push(new Card(faceCard, suit));
+    }
+    deck.push(new Card('Ace', suit));
+  }
 
   const dealHand = () => {
 
     /* code to deal a card hand goes here */
+    $("#card_hand").empty();
+
+    let hand = [];
+    for (let i = 0; i < 5; i++) {
+      hand.push(deck.pop());
+    }
 
     // update 'card_hand' DIV with appropriate information
-    $("#card_hand").html("Button clicked");
+    for (let card of hand) {
+      $("#card_hand").append(`<div>${card.value} of ${card.suit}</div>`);
+    }
 
     return false; // prevent page reload
   }
