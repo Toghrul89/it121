@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Drawing</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="600" height="400"></canvas>
+
+    <script>
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "blue";
+      ctx.fillRect(20, 40, 100, 100);
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(100, 100);
+      ctx.strokeStyle = "red";
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(150, 150, 50, 0, Math.PI * 2);
+      ctx.fillStyle = "green";
+      ctx.fill();
+
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "black";
+      ctx.fillText("Hello World", 250, 50);
+
+      ctx.beginPath();
+      ctx.moveTo(200, 200);
+      ctx.quadraticCurveTo(250, 300, 300, 200);
+      ctx.strokeStyle = "purple";
+      ctx.stroke();
+
+      ctx.clearRect(0, 0, 100, 100);
+
+      const img = new Image();
+      img.onload = function () {
+        ctx.drawImage(img, 350, 50);
+      };
+      img.src = "flower.jpg";
+
+      let x = 50;
+      let y = 50;
+      let dx = 2;
+      let dy = 2;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "red";
+        ctx.fillRect(x, y, 50, 50);
+
+        x += dx;
+        y += dy;
+
+        if (x + 50 > canvas.width || x < 0) {
+          dx = -dx;
+        }
+        if (y + 50 > canvas.height || y < 0) {
+          dy = -dy;
+        }
+      }
+
+      animate();
+    </script>
+  </body>
+</html>
