@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-Day Weather Forecast</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>5-Day Weather Forecast</h1>
+
+  <form id="weatherForm">
+    <label for="cityInput">Enter a US City:</label>
+    <input type="text" id="cityInput" name="city" required>
+    <button type="submit">Get Forecast</button>
+  </form>
+
+  <div id="weatherForecast"></div>
+
+  <script>
+    $(document).ready(function() {
+      $('#weatherForm').submit(function(event) {
+        event.preventDefault();
+        let city = $('#cityInput').val().trim();
+        if (city === "" || !isNaN(city)) {
+          alert("Please enter a valid US city name.");
+          return;
+        }
+        fetchWeatherForecast(city);
+      });
+    });
+
+    function fetchWeatherForecast(city) {
+      const API_KEY = '38841c0726f3b4a32c2abb49cb486212';
+      const API_URL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}`;
+
+      $.ajax({
+        url: API_URL,
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          if (data.cod === 401) {
+            handleInvalidApiKey(data);
+          } else {
+            displayWeatherForecast(data);
+          }
+        },
+        error: function() {
+          $('#weatherForecast').html('<p>Failed to fetch weather forecast. Please try again later.</p>');
+        }
+      });
+    }
+
+    function handleInvalidApiKey(response) {
+      $('#weatherForecast').html(`<p>${response.message}</p>`);
+    }
+
+    function displayWeatherForecast(data) {
+      if (!data || !data.list || data.list.length === 0) {
+        $('#weatherForecast').html('<p>No forecast data available for the specified city.</p>');
+        return;
+      }
+
+      let forecastHtml = '<h2>5-Day Forecast</h2><ul>';
+      data.list.forEach(day => {
+        let date = new Date(day.dt * 1000);
+        let minTemp = Math.round(((day.main.temp_min - 273.15) * 9/5) + 32);
+        let maxTemp = Math.round(((day.main.temp_max - 273.15) * 9/5) + 32);
+        let humidity = day.main.humidity;
+        let weatherDescription = day.weather[0].description;
+        let weatherIcon = `https://openweathermap.org/img/w/${day.weather[0].icon}.png`;
+
+        forecastHtml += `
+          <li>
+            <p>Date: ${date.toLocaleDateString('en-US')}</p>
+            <p>Min Temp: ${minTemp}°F</p>
+            <p>Max Temp: ${maxTemp}°F</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Weather Description: ${weatherDescription}</p>
+            <img src="${weatherIcon}" alt="Weather Icon">
+          </li>
+        `;
+      });
+      forecastHtml += '</ul>';
+
+      $('#weatherForecast').html(forecastHtml);
+    }
+  </script>
+</body>
+</html>
